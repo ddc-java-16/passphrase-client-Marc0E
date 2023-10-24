@@ -15,5 +15,7 @@
  */
 plugins {
     alias(libs.plugins.android.application).apply(false)
+    alias(libs.plugins.navigation.safeargs).apply(false) //Method for navigation safe
+    alias(libs.plugins.hilt).apply(false)
     alias(libs.plugins.junit).apply(false)
 }

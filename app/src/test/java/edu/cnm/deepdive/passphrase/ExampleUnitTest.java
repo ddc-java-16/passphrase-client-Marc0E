@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.appstarter;
+package edu.cnm.deepdive.passphrase;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -18,6 +18,8 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.junit)
 }
 
@@ -73,6 +75,11 @@ dependencies {
     implementation(libs.constraint.layout)
     implementation(libs.recycler.view)
 
+    // Navigation libraries
+    implementation(libs.navigation.fragment)
+    implementation(libs.fragment)
+    implementation(libs.navigation.ui) //To use navigation map to move from one fragment to another.
+
     // Lifecycle (LiveData and ViewModel) libraries
     runtimeOnly(libs.lifecycle.viewmodel)
     runtimeOnly(libs.lifecycle.livedata)
@@ -82,6 +89,25 @@ dependencies {
 
     // Material Design components
     implementation(libs.material)
+
+    //Libraries for accessing HTTP resources
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.adapter.rx.java)
+    implementation(libs.retrofit.converter.gson)
+
+    //Libraries for reactive streams
+    implementation(libs.rx.java)
+    implementation(libs.rx.android)
+
+    // Library for JSON parsing
+    implementation(libs.gson)
+
+    // Library for Google sign-in
+    implementation(libs.play.auth)
+
+    // Libraries for dependency injection
+    implementation(libs.hilt.android.core)
+    annotationProcessor(libs.hilt.compiler)
 
     // Libraries for JVM-based testing.
     testImplementation(libs.junit.api)
