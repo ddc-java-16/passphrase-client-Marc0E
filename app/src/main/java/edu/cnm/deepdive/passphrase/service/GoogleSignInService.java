@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.passphrase.service;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -13,6 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import dagger.hilt.android.qualifiers.ApplicationContext;
+import edu.cnm.deepdive.passphrase.R;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
@@ -29,13 +31,17 @@ public class GoogleSignInService {
 
   @Inject
   GoogleSignInService(@ApplicationContext Context context){
-    //Resources res = context.getResources();
-    // TODO: 10/24/23 Get String resource with client ID.
+    Resources res = context.getResources();
+    @SuppressLint("DiscouragedApi")
+    int identifier = res.getIdentifier("service_client_id","string", context.getPackageName());
+    String clientId = (identifier != 0) ? res.getString(R.string.service_client_id) : null; //service_client is in local.properties in Gradle scripts
     GoogleSignInOptions.Builder builder = new Builder()
         .requestEmail()
         .requestId()
         .requestProfile(); //get photo
-    // TODO: 10/24/23 Request bearer token for client ID.
+    if(clientId != null && !clientId.isEmpty()){
+      builder.requestIdToken(clientId);
+    }
     client = GoogleSignIn.getClient(context, builder.build());
   }
 

@@ -1,12 +1,16 @@
 package edu.cnm.deepdive.passphrase.controller;
 
 import android.content.Intent;
+import android.transition.Slide;
+import android.view.Gravity;
+import android.view.Window;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.snackbar.Snackbar;
@@ -25,6 +29,8 @@ public class LoginActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS); //it also returns size of window.
+    getWindow().setExitTransition(new Slide(Gravity.START));//Add effects to transitions.
     viewModel = new ViewModelProvider(this)
         .get(LoginViewModel.class);
     getLifecycle().addObserver(viewModel);
@@ -41,7 +47,8 @@ public class LoginActivity extends AppCompatActivity {
     if(account != null){
       Intent intent = new Intent(this, MainActivity.class)
           .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-      startActivity(intent);
+      //noinspection unchecked
+      startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle()); //add the effect created above.
     } else if (silent) {
       silent = false;
       binding = ActivityLoginBinding.inflate(getLayoutInflater());
