@@ -9,7 +9,7 @@ import dagger.hilt.InstallIn;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 import edu.cnm.deepdive.passphrase.R;
-import edu.cnm.deepdive.passphrase.service.PassphreseServiceProxy;
+import edu.cnm.deepdive.passphrase.service.PassphraseServiceProxy;
 import javax.inject.Singleton;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -24,7 +24,7 @@ public final class ProxyModule {
 
   @Provides
   @Singleton
-  PassphreseServiceProxy provideProxy(@ApplicationContext Context context){
+  PassphraseServiceProxy provideProxy(@ApplicationContext Context context){
     Gson gson = new GsonBuilder()
         .excludeFieldsWithoutExposeAnnotation()
         .setDateFormat("yyyy-MM-ddTHH:mm:ss.SSSZ")
@@ -40,7 +40,7 @@ public final class ProxyModule {
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .client(client)
         .build();
-    return retrofit.create(PassphreseServiceProxy.class);
+    return retrofit.create(PassphraseServiceProxy.class);
   }
 
 }

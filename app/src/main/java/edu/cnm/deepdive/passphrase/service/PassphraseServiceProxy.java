@@ -12,7 +12,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface PassphreseServiceProxy {
+public interface PassphraseServiceProxy {
 
   @GET("passphrases/{key}")
   Single<Passphrase> get(@Path("key") String key, @Header("Authorization") String bearerToken);

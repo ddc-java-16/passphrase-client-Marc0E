@@ -13,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import dagger.hilt.android.qualifiers.ApplicationContext;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleEmitter;
@@ -69,5 +70,14 @@ public class GoogleSignInService {
           }
         })
         .observeOn(Schedulers.io());
+  }
+  public Completable signOut(){
+    return Completable.create((emitter) ->
+        client
+            .signOut()
+            .addOnSuccessListener((ignored) -> emitter.onComplete())
+            .addOnFailureListener(emitter::onError)
+        )
+        .subscribeOn(Schedulers.io());
   }
 }
