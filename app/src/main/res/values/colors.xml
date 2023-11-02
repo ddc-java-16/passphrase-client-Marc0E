@@ -23,5 +23,7 @@
   <color name="save">@color/primary_color_dark</color>
   <color name="cancel">#FFFF0000</color>
   <color name="disabled">#60000000</color>
+  <color name="even_row_color">#00000000</color>
+  <color name="odd_row_color">#10000000</color>
 
 </resources>
