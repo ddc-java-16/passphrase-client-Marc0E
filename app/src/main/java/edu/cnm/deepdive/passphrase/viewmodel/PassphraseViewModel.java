@@ -46,8 +46,37 @@ public class PassphraseViewModel extends ViewModel implements DefaultLifecycleOb
     return throwable;
   }
 
-  // TODO: 11/1/23 Add methods for the UI controller to invoke, to query/update/delete/create new passphrases.
+  public void fetch(String key){
+    repository
+        .get(key)
+        .subscribe(this.passphrase::postValue, this::postThrowable, pending);
+  }
 
+  public void fetch(){
+    repository
+        .get()
+        .subscribe(this.passphrases::postValue, this::postThrowable, pending);
+  }
+
+  public void search(String fragment){
+    repository
+        .search(fragment)
+        .subscribe(this.passphrases::postValue, this::postThrowable, pending);
+  }
+
+  public void save(Passphrase passphrase){
+    repository
+        .save(passphrase)
+        .subscribe(
+            this.passphrase::postValue, this::postThrowable, pending);
+  }
+
+public void delete(String key){
+    repository
+        .delete(key)
+        .subscribe(() -> {}, this::postThrowable, pending);
+  // TODO: 11/2/23 Refresh displayed list.
+}
   @Override
   public void onStop(@NotNull LifecycleOwner owner) {
     DefaultLifecycleObserver.super.onStop(owner);

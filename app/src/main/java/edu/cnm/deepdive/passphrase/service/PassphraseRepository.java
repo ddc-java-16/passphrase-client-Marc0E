@@ -58,4 +58,9 @@ public class PassphraseRepository {
         .flatMap((token) -> serviceProxy.put(passphrase.getKey(), passphrase, token));
   }
 
+  public Single<Passphrase> save(Passphrase passphrase) {
+    return (passphrase.getKey() == null || passphrase.getKey().isEmpty())
+        ? add(passphrase)
+        : replace(passphrase);
+  }
 }

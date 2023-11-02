@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/navigation_graph.xml"
+  app:startDestination="@id/passphrases_fragment">
+
+  <fragment
+    android:id="@+id/passphrases_fragment"
+    android:name="edu.cnm.deepdive.passphrase.controller.PassphrasesFragment"
+    tools:layout="@layout/fragment_passphrases"/>
+
+
+</navigation>
