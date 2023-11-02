@@ -51,7 +51,7 @@ public class GoogleSignInService {
     return Single.create((SingleEmitter<GoogleSignInAccount> emitter) ->
         client.silentSignIn()
             .addOnSuccessListener(emitter::onSuccess)
-            .addOnSuccessListener((account) -> Log.d(getClass().getSimpleName(), account.getIdToken())) // FIXME: 10/30/23 Get rid of this after testing.
+            //.addOnSuccessListener((account) -> Log.d(getClass().getSimpleName(), account.getIdToken())) // FIXME: 10/30/23 Get rid of this after testing.
             .addOnFailureListener(emitter::onError)
 
         )
@@ -73,7 +73,7 @@ public class GoogleSignInService {
                 GoogleSignIn.getSignedInAccountFromIntent(result.getData());
             GoogleSignInAccount account = task.getResult(ApiException.class);
             emitter.onSuccess(account);
-            Log.d(getClass().getSimpleName(), account.getIdToken());
+            //Log.d(getClass().getSimpleName(), account.getIdToken()); Only use for development.
           } catch (ApiException e) {
             emitter.onError(e);
           }

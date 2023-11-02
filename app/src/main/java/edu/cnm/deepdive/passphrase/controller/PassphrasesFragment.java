@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import dagger.hilt.android.AndroidEntryPoint;
+import edu.cnm.deepdive.passphrase.adapter.PassphrasesAdapter;
 import edu.cnm.deepdive.passphrase.databinding.FragmentPassphrasesBinding;
 import edu.cnm.deepdive.passphrase.viewmodel.PassphraseViewModel;
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +26,9 @@ public class PassphrasesFragment extends Fragment {
   public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container,
       @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
     binding = FragmentPassphrasesBinding.inflate(inflater, container, false);
+    binding.refresh.setOnClickListener((v) -> viewModel.fetch());
+    //noinspection DataFlowIssue
+    binding.search.setOnClickListener((v) -> viewModel.search(binding.searchText.getText().toString()));
     // TODO: 11/2/23 Attach listeners.
     return binding.getRoot();
   }
@@ -36,9 +40,9 @@ public class PassphrasesFragment extends Fragment {
         .get(PassphraseViewModel.class);
     getLifecycle().addObserver(viewModel);
     viewModel
-        .getPassphrase()
-        .observe(getViewLifecycleOwner(), (passphrase) -> {
-          // TODO: 11/2/23 Populate adapter and pass to recyclerview.
+        .getPassphrases()
+        .observe(getViewLifecycleOwner(), (passphrases) -> {
+          binding.passphrases.setAdapter(new PassphrasesAdapter(requireContext(), passphrases));
         });
   }
 }
