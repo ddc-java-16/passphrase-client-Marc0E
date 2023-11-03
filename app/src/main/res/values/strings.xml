@@ -45,5 +45,6 @@
   <string name="words">Words</string>
   <string name="length">Length</string>
   <string name="generate">Generate</string>
+  <string name="passphrase_details">Passphrase Details</string>
 
 </resources>

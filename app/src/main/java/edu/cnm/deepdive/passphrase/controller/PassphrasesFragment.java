@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.passphrase.adapter.PassphrasesAdapter;
 import edu.cnm.deepdive.passphrase.databinding.FragmentPassphrasesBinding;
@@ -29,6 +30,8 @@ public class PassphrasesFragment extends Fragment {
     binding.refresh.setOnClickListener((v) -> viewModel.fetch());
     //noinspection DataFlowIssue
     binding.search.setOnClickListener((v) -> viewModel.search(binding.searchText.getText().toString()));
+    binding.create.setOnClickListener((v) -> Navigation.findNavController(binding.getRoot())
+        .navigate(PassphrasesFragmentDirections.openEditPassphraseFragment()));
     // TODO: 11/2/23 Attach listeners.
     return binding.getRoot();
   }
