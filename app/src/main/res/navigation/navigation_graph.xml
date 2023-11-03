@@ -5,10 +5,35 @@
   android:id="@+id/navigation_graph.xml"
   app:startDestination="@id/passphrases_fragment">
 
+  <action
+    android:id="@+id/open_edit_passphrase_fragment"
+    app:destination="@id/edit_passphrase_fragment">
+
+    <argument
+      android:name="key"
+      app:argType="string"
+      app:nullable="true"
+      android:defaultValue="@null"/>
+
+  </action>
+
   <fragment
     android:id="@+id/passphrases_fragment"
     android:name="edu.cnm.deepdive.passphrase.controller.PassphrasesFragment"
     tools:layout="@layout/fragment_passphrases"/>
+
+  <dialog
+    android:id="@+id/edit_passphrase_fragment"
+    android:name="edu.cnm.deepdive.passphrase.controller.EditPassphraseFragment"
+    tools:layout="@layout/fragment_edit_passphrase">
+
+    <argument
+      android:name="key"
+      app:argType="string"
+      app:nullable="true"
+      android:defaultValue="@null"/>
+
+    </dialog>
 
 
 </navigation>

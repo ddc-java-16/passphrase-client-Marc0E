@@ -41,5 +41,9 @@
   <string name="search_description">Search for passphrases containing fragment text</string>
   <string name="refresh_description">Refresh list of passphrases</string>
   <string name="create_description">Create new passphrase</string>
+  <string name="passphrase_name">Passphrase name</string>
+  <string name="words">Words</string>
+  <string name="length">Length</string>
+  <string name="generate">Generate</string>
 
 </resources>
