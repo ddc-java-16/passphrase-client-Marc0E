@@ -4,5 +4,7 @@
   android:layout_height="wrap_content"
   xmlns:tools="http://schemas.android.com/tools"
   android:padding="@dimen/half_dynamic_spacing"
+  android:clickable="true"
+  android:foreground="?android:selectableItemBackground"
   tools:text="NetFlix"
   />

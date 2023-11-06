@@ -1,7 +1,6 @@
 package edu.cnm.deepdive.passphrase.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +17,19 @@ import java.util.List;
 public class PassphrasesAdapter extends RecyclerView.Adapter<Holder> {
 
   private final List<Passphrase> passphrases;
+  private final OnClickListener clickListener;
+  private final OnClickListener longClickListener;
   private final LayoutInflater inflater;
   @ColorInt
   private final int evenRowColor;
   @ColorInt
   private final int oddRowColor;
 
-  public PassphrasesAdapter(Context context, List<Passphrase> passphrases) {
+  public PassphrasesAdapter(@NonNull Context context,@NonNull List<Passphrase> passphrases,
+      @NonNull OnClickListener clickListener,@NonNull OnClickListener longClickListener) {
     this.passphrases = passphrases;
+    this.clickListener = clickListener;
+    this.longClickListener = longClickListener;
     inflater = LayoutInflater.from(context);
     evenRowColor = context.getColor(R.color.even_row_color);
     oddRowColor = context.getColor(R.color.odd_row_color);
@@ -47,16 +51,29 @@ public class PassphrasesAdapter extends RecyclerView.Adapter<Holder> {
     return passphrases.size();
   }
 
-  public class Holder extends RecyclerView.ViewHolder{
+  public class Holder extends RecyclerView.ViewHolder {
 
     private Holder(
         @NonNull View itemView) {
       super(itemView);
     }
-    private void bind(int position){
-      ((TextView)itemView).setText(passphrases.get(position).getName());
+
+    private void bind(int position) {
+      Passphrase passphrase = passphrases.get(position);
+      ((TextView) itemView).setText(passphrase.getName());
       itemView.setBackgroundColor((position % 2 == 0) ? evenRowColor : oddRowColor);
-      // TODO: 11/2/23 Attach listener for long-press.
+      itemView.setOnClickListener((v) -> clickListener.onClick(v, position, passphrase));
+      itemView.setOnLongClickListener((v) -> {
+        longClickListener.onClick(v, position,
+            passphrase);
+        return true;
+      });
     }
   }
+
+  @FunctionalInterface
+  public interface OnClickListener {
+    void onClick(View view, int position, Passphrase passphrase);
+  }
+
 }

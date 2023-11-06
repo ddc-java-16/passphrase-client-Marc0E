@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.passphrase.controller;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,15 +14,24 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.passphrase.R;
 import edu.cnm.deepdive.passphrase.databinding.FragmentEditPassphraseBinding;
+import edu.cnm.deepdive.passphrase.model.Passphrase;
+import edu.cnm.deepdive.passphrase.viewmodel.PassphraseViewModel;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
 public class EditPassphraseFragment extends DialogFragment implements TextWatcher {
 
+  private static final Pattern SPLITTER = Pattern.compile("\\W+");
   private FragmentEditPassphraseBinding binding;
   private String key;
   private AlertDialog dialog;
+  private PassphraseViewModel viewModel;
+  private Passphrase passphrase;
 
   @NonNull
   @Override
@@ -32,7 +42,7 @@ public class EditPassphraseFragment extends DialogFragment implements TextWatche
         //.setIcon() // TODO: 11/3/23 Import a suitable icon drawable.
         .setTitle(R.string.passphrase_details)
         .setView(binding.getRoot())
-        .setPositiveButton(android.R.string.ok, (dlg, which) -> {/* TODO Handle click on OK.*/})
+        .setPositiveButton(android.R.string.ok, (dlg, which) -> save())
         .setNegativeButton(android.R.string.cancel, (dlg, which) -> {/*Do nothing.*/})
         .create();
     dialog.setOnShowListener((dlg) -> checkSubmitConditions());
@@ -49,13 +59,16 @@ public class EditPassphraseFragment extends DialogFragment implements TextWatche
   @Override
   public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    return super.onCreateView(inflater, container, savedInstanceState);
+    return binding.getRoot();
   }
 
   @Override
   public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    // TODO: 11/3/23 Attach to view model & observe.
+    viewModel = new ViewModelProvider(requireActivity())
+        .get(PassphraseViewModel.class);
+    // TODO: 11/6/23 Observe viewModel.getPassphrase()
+    passphrase = new Passphrase(); // TODO: 11/6/23 Only do this if we did not receive a key.
   }
 
   @Override
@@ -79,7 +92,25 @@ public class EditPassphraseFragment extends DialogFragment implements TextWatche
     checkSubmitConditions();
   }
 
+private void save(){
+  //noinspection DataFlowIssue
+  passphrase.setName(binding.name.getText().toString().strip());
+  //passphrase.getWords().addAll(
+  // noinspection DataFlowIssue
+        SPLITTER
+            .splitAsStream(binding.words.getText().toString())
+            .filter((word) -> !word.isEmpty())
+            .forEach((word) -> passphrase.append(word));
+            //.collect(Collectors.toList()) this is another option to replaces the line forEach.
+    viewModel.save(passphrase);
+  // TODO: 11/6/23 Send passphrase to service.
+}
   private void checkSubmitConditions() {
-    // TODO: 11/3/23 Enable/disable OK button, based on content of binding.words and binding.name.
+    //noinspection DataFlowIssue
+    dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+        .setEnabled(
+            !binding.name.getText().toString().isBlank()
+            && !binding.words.getText().toString().isBlank()
+        );
   }
 }
