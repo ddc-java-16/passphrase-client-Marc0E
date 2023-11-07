@@ -42,7 +42,7 @@
       android:inputType="textMultiLine"
       android:minLines="5"
       android:maxLines="5"
-      android:layout_gravity="top|start"
+      android:gravity="start|top"
       android:hint="@string/words"/>
 
 

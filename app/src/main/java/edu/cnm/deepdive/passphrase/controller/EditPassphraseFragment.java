@@ -114,13 +114,14 @@ private void save(){
   passphrase.setName(binding.name.getText().toString().strip());
   //passphrase.getWords().addAll(
   // noinspection DataFlowIssue
+  passphrase.clear();
         SPLITTER
             .splitAsStream(binding.words.getText().toString())
             .filter((word) -> !word.isEmpty())
             .forEach((word) -> passphrase.append(word));
             //.collect(Collectors.toList()) this is another option to replaces the line forEach.
     viewModel.save(passphrase);
-  // TODO: 11/6/23 Send passphrase to service.
+  // TODO: 11/6/23 Wait for a successful response.
 }
   private void checkSubmitConditions() {
     //noinspection DataFlowIssue
