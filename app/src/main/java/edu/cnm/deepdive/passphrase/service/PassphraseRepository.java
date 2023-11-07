@@ -55,7 +55,7 @@ public class PassphraseRepository {
   public Single<Passphrase> replace(Passphrase passphrase){
     return signInService
         .refreshBearerToken()
-        .flatMap((token) -> serviceProxy.put(passphrase.getKey(), passphrase, token));
+        .flatMap((token) -> serviceProxy.patch(passphrase.getKey(), passphrase, token));
   }
 
   public Single<Passphrase> save(Passphrase passphrase) {
@@ -63,4 +63,12 @@ public class PassphraseRepository {
         ? add(passphrase)
         : replace(passphrase);
   }
+
+  public Single<List<String>> generate(int length){
+    return signInService
+        .refreshBearerToken()
+        .flatMap((token) -> serviceProxy.generate(length, token));
+  }
+
+  // TODO: 11/7/23 Add methods to invoke put for name and words.
 }

@@ -8,6 +8,8 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -30,8 +32,9 @@ Single<List<Passphrase>> search(@Query("q") String fragment, @Header("Authorizat
   @DELETE("passphrases/{key}")
   Completable delete(@Path("key") String key, @Header("Authorization") String bearerToken);
 
-  @PUT("passphrases/{key}")
-  Single<Passphrase> put(@Path("key") String key,@Body Passphrase passphrase, @Header("Authorization") String bearerToken);
+ @Headers("Content-Type: application/merge-patch+json")
+  @PATCH("passphrases/{key}")
+  Single<Passphrase> patch(@Path("key") String key,@Body Passphrase passphrase, @Header("Authorization") String bearerToken);
 
   @PUT("passphrases/{key}/name")
   Single<String> put(@Path("key") String key,@Body String name, @Header("Authorization") String bearerToken);
@@ -39,4 +42,6 @@ Single<List<Passphrase>> search(@Query("q") String fragment, @Header("Authorizat
   @PUT("passphrases/{key}/words")
   Single<List<String>> put(@Path("key") String key,@Body List<String> words, @Header("Authorization") String bearerToken);
 
+  @POST("passphrases/generate")
+  Single<List<String>> generate(@Query("length") int length, @Header("Authorization") String bearerToken);
 }
