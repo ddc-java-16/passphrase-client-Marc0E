@@ -1,0 +1,8 @@
+edu.cnm.deepdive.passphrase
+edu.cnm.deepdive.passphrase.adapter
+edu.cnm.deepdive.passphrase.controller
+edu.cnm.deepdive.passphrase.databinding
+edu.cnm.deepdive.passphrase.hilt
+edu.cnm.deepdive.passphrase.model
+edu.cnm.deepdive.passphrase.service
+edu.cnm.deepdive.passphrase.viewmodel
